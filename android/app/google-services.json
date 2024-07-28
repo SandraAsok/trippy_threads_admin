@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1076832854030",
+    "project_id": "trippythreads-a1ecb",
+    "storage_bucket": "trippythreads-a1ecb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076832854030:android:a45b5fc9de763370cd9c5f",
+        "android_client_info": {
+          "package_name": "com.example.trippy_threads"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIDlthmTiKE284XJUmFuLpKiucyty3p0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076832854030:android:76b9d68075ab27e4cd9c5f",
+        "android_client_info": {
+          "package_name": "com.example.trippy_threads_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIDlthmTiKE284XJUmFuLpKiucyty3p0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
