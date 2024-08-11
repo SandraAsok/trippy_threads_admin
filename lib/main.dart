@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trippy_threads_admin/Employee/confirm_assign.dart';
 import 'package:trippy_threads_admin/firebase_options.dart';
 import 'package:trippy_threads_admin/home.dart';
 import 'package:trippy_threads_admin/productview.dart';
@@ -20,6 +21,7 @@ void main() async {
     home: Splash(),
     routes: {
       'view': (context) => ProductView(),
+      'assignconfirm': (context) => AssignConfirm(),
     },
   ));
 }
