@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -57,11 +55,13 @@ class _AssignState extends State<Assign> {
   int totalcityorders = 0;
 
   Future fetchcityOrders() async {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('orders').get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('orders')
+        .where('track', isEqualTo: 'pending')
+        .get();
 
     var filteredOrders = querySnapshot.docs
-        .where((doc) => doc['address'].contains(selectedcity))
+        .where((doc) => doc['address'].contains(selectedcity!.toLowerCase()))
         .toList();
 
     int total = filteredOrders.length;
@@ -82,17 +82,9 @@ class _AssignState extends State<Assign> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Text(
-                    "Total Orders to be assign : $totalorders",
-                    style: GoogleFonts.abhayaLibre(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: DropdownButtonFormField(
-                    hint: Text("select employer city"),
+                    hint: const Text("select employer city"),
                     onChanged: (value) {
                       setState(() {
                         selectedcity = value.toString();
@@ -108,14 +100,18 @@ class _AssignState extends State<Assign> {
                     }).toList(),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Text(
-                    "Total orders regarding $selectedcity : $totalcityorders",
-                    style: GoogleFonts.abhayaLibre(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
+                selectedcity != null
+                    ? Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(
+                          "Total orders regarding $selectedcity : $totalcityorders",
+                          style: GoogleFonts.abhayaLibre(
+                              color: Colors.green[700],
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    : const SizedBox(height: 10),
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('employees_delivery')
@@ -126,7 +122,7 @@ class _AssignState extends State<Assign> {
                         log(snapshot.error.toString());
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: LinearProgressIndicator());
+                        return const Center(child: LinearProgressIndicator());
                       }
                       return ListView.builder(
                         shrinkWrap: true,
@@ -147,7 +143,7 @@ class _AssignState extends State<Assign> {
                                     Text(cities),
                                   ],
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 MaterialButton(
                                     color: Colors.amber[50],
                                     onPressed: () {

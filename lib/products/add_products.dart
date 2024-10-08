@@ -1,12 +1,10 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: use_build_context_synchronously
 
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trippy_threads_admin/utilities.dart';
@@ -70,21 +68,21 @@ class _AddProductsFormState extends State<AddProductsForm> {
         'colorcode': colourcodevalue,
         'stock': int.parse(stock.text),
       });
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Product Added Successfully")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Product Added Successfully")));
     } catch (e) {
       print(e);
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            content: Text("Something went wrong"),
+            content: const Text("Something went wrong"),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("OK"))
+                  child: const Text("OK"))
             ],
           );
         },
@@ -118,7 +116,7 @@ class _AddProductsFormState extends State<AddProductsForm> {
                         width: 250,
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black, width: 2)),
-                        child: Center(child: Text("Add product image")),
+                        child: const Center(child: Text("Add product image")),
                       )
                     : Container(
                         height: 350,
@@ -139,7 +137,7 @@ class _AddProductsFormState extends State<AddProductsForm> {
                     labelText: "Product Name",
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.black,
                           width: 2,
                         ))),
@@ -154,7 +152,7 @@ class _AddProductsFormState extends State<AddProductsForm> {
                     labelText: "Product Description",
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.black,
                           width: 2,
                         ))),
@@ -169,7 +167,7 @@ class _AddProductsFormState extends State<AddProductsForm> {
                     labelText: "Product Details",
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.black,
                           width: 2,
                         ))),
@@ -184,16 +182,16 @@ class _AddProductsFormState extends State<AddProductsForm> {
                     labelText: "Product Price",
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.black,
                           width: 2,
                         ))),
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: DropdownButtonFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Select a category',
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black)),
@@ -210,9 +208,9 @@ class _AddProductsFormState extends State<AddProductsForm> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: DropdownButtonFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Select a colourcode',
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black)),
@@ -240,7 +238,7 @@ class _AddProductsFormState extends State<AddProductsForm> {
                     labelText: "Stock",
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Colors.black,
                           width: 2,
                         ))),
@@ -261,7 +259,7 @@ class _AddProductsFormState extends State<AddProductsForm> {
                     addproduct();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("something went wrong")));
+                        const SnackBar(content: Text("something went wrong")));
                   }
                   Navigator.pop(context);
                   productname.clear();

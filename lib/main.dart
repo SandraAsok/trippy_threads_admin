@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trippy_threads_admin/Employee/confirm_assign.dart';
 import 'package:trippy_threads_admin/firebase_options.dart';
 import 'package:trippy_threads_admin/home.dart';
-import 'package:trippy_threads_admin/productview.dart';
+import 'package:trippy_threads_admin/products/productview.dart';
 import 'package:trippy_threads_admin/utilities.dart';
 
 void main() async {
@@ -18,10 +18,10 @@ void main() async {
   );
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: Splash(),
+    home: const Splash(),
     routes: {
-      'view': (context) => ProductView(),
-      'assignconfirm': (context) => AssignConfirm(),
+      'view': (context) => const ProductView(),
+      'assignconfirm': (context) => const AssignConfirm(),
     },
   ));
 }
@@ -41,13 +41,13 @@ class _SplashState extends State<Splash> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => const HomeScreen(),
             ));
       } else {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Login(),
+              builder: (context) => const Login(),
             ));
       }
     });
@@ -114,26 +114,26 @@ class _LoginState extends State<Login> {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email.text, password: password.text);
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Admin logged in successfully")));
+            const SnackBar(content: Text("Admin logged in successfully")));
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setBool('islogged', true);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => const HomeScreen(),
             ));
       } else {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text("Alert !"),
-            content: Text("Admin's credentials are\n incorrect"),
+            title: const Text("Alert !"),
+            content: const Text("Admin's credentials are\n incorrect"),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("ok"))
+                  child: const Text("ok"))
             ],
           ),
         );
@@ -142,14 +142,14 @@ class _LoginState extends State<Login> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Alert !"),
-          content: Text("supplied credentials are\n incorrect"),
+          title: const Text("Alert !"),
+          content: const Text("supplied credentials are\n incorrect"),
           actions: [
             TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("ok"))
+                child: const Text("ok"))
           ],
         ),
       );
@@ -180,10 +180,10 @@ class _LoginState extends State<Login> {
                 errorText: errormessage.isEmpty ? null : errormessage,
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color: Colors.black)),
+                    borderSide: const BorderSide(color: Colors.black)),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color: Colors.black)),
+                    borderSide: const BorderSide(color: Colors.black)),
               ),
               onChanged: validateEmail,
             ),
@@ -201,10 +201,10 @@ class _LoginState extends State<Login> {
                   labelStyle: GoogleFonts.aclonica(),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(color: Colors.black)),
+                      borderSide: const BorderSide(color: Colors.black)),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(color: Colors.black)),
+                      borderSide: const BorderSide(color: Colors.black)),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _obscureText ? Icons.visibility : Icons.visibility_off),
@@ -222,7 +222,7 @@ class _LoginState extends State<Login> {
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
-                  minimumSize: MaterialStateProperty.all(Size(150, 40))),
+                  minimumSize: MaterialStateProperty.all(const Size(150, 40))),
               child: Text(
                 "Sign In",
                 style: GoogleFonts.aclonica(fontSize: 20, color: Colors.white),

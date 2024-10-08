@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:trippy_threads_admin/home.dart';
 
 class AssignConfirm extends StatefulWidget {
   const AssignConfirm({super.key});
@@ -19,6 +20,106 @@ class _AssignConfirmState extends State<AssignConfirm> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
+    // Future assignorders() async {
+    //   try {
+    //     // Get the filtered orders
+    //     QuerySnapshot querySnapshot =
+    //         await FirebaseFirestore.instance.collection('orders').get();
+
+    //     var filteredOrders = querySnapshot.docs
+    //         .where((doc) => doc['address'].contains(args['selectedcity']))
+    //         .toList();
+
+    //     // Create a list of maps containing order details
+    //     List<Map<String, dynamic>> orderDetails = filteredOrders.map((doc) {
+    //       return {
+    //         'product_name': doc['product_name'],
+    //         'quantity': doc['quantity'],
+    //         'totalPrice': doc['totalPrice'],
+    //         'payment': doc['payment'],
+    //         'address': doc['address'].split("+").join(","),
+    //         'orderId': doc.id,
+    //       };
+    //     }).toList();
+
+    //     // Add the collected data to 'assigned_orders' collection
+    //     await FirebaseFirestore.instance.collection('assigned_orders').add({
+    //       'orders_no': totalorders,
+    //       'ordered_city': args['selectedcity'],
+    //       'order_details': orderDetails,
+    //       'assigned_date': outputFormat.format(DateTime.now()),
+    //       'employee_name': args['employee_name'],
+    //       'employee_phone': args['employee_phone'],
+    //       'employee_email': args['employee_email'],
+    //       'status': 'waiting',
+    //     });
+
+    //     // Update the 'track' field of each filtered order to 'assigned'
+    //     for (var doc in filteredOrders) {
+    //       await FirebaseFirestore.instance
+    //           .collection('orders')
+    //           .doc(doc.id)
+    //           .update({'track': 'assigned'});
+    //     }
+    //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    //       content: Text('Orders Assigned Successfully!'),
+    //     ));
+    //   } catch (e) {
+    //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //       content: Text('Error assigning orders: $e'),
+    //     ));
+    //   }
+    // }
+
+    Future assignorders() async {
+      try {
+        // Get the filtered orders
+        QuerySnapshot querySnapshot =
+            await FirebaseFirestore.instance.collection('orders').get();
+
+        var filteredOrders = querySnapshot.docs
+            .where((doc) => doc['address'].contains(args['selectedcity']))
+            .toList();
+
+        // Loop through each filtered order and create a separate document
+        for (var doc in filteredOrders) {
+          // Create a map containing order details
+          Map<String, dynamic> orderDetails = {
+            'product_name': doc['product_name'],
+            'quantity': doc['quantity'],
+            'totalPrice': doc['totalPrice'],
+            'payment': doc['payment'],
+            'address': doc['address'].split("+").join(","),
+            'orderId': doc.id,
+            'ordered_city': args['selectedcity'],
+            'assigned_date': outputFormat.format(DateTime.now()),
+            'employee_name': args['employee_name'],
+            'employee_phone': args['employee_phone'],
+            'employee_email': args['employee_email'],
+            'status': 'waiting',
+          };
+
+          // Add the order details as a new document in 'assigned_orders' collection
+          await FirebaseFirestore.instance
+              .collection('assigned_orders')
+              .add(orderDetails);
+
+          // Update the 'track' field of the order to 'assigned'
+          await FirebaseFirestore.instance
+              .collection('orders')
+              .doc(doc.id)
+              .update({'track': 'assigned'});
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Orders Assigned Successfully!'),
+        ));
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Error assigning orders: $e'),
+        ));
+      }
+    }
 
     Future fetchTotalOrders() async {
       QuerySnapshot querySnapshot =
@@ -56,7 +157,7 @@ class _AssignConfirmState extends State<AssignConfirm> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
 
                     var filteredorder = snapshot.data!.docs
@@ -96,52 +197,16 @@ class _AssignConfirmState extends State<AssignConfirm> {
           ],
         ),
         bottomSheet: MaterialButton(
-          onPressed: () async {
-            try {
-              // Get the filtered orders
-              QuerySnapshot querySnapshot =
-                  await FirebaseFirestore.instance.collection('orders').get();
-
-              var filteredOrders = querySnapshot.docs
-                  .where((doc) => doc['address'].contains(args['selectedcity']))
-                  .toList();
-
-              // Create a list of maps containing order details
-              List<Map<String, dynamic>> orderDetails =
-                  filteredOrders.map((doc) {
-                return {
-                  'product_name': doc['product_name'],
-                  'quantity': doc['quantity'],
-                  'totalPrice': doc['totalPrice'],
-                  'payment': doc['payment'],
-                  'address': doc['address'].split("+").join(","),
-                };
-              }).toList();
-
-              // Add the collected data to 'assigned_orders' collection
-              await FirebaseFirestore.instance
-                  .collection('assigned_orders')
-                  .add({
-                'orders_no': totalorders,
-                'ordered_city': args['selectedcity'],
-                'order_details': orderDetails,
-                'assigned_date': outputFormat.format(DateTime.now()),
-                'employee_name': args['employee_name'],
-                'employee_phone': args['employee_phone'],
-                'employee_email': args['employee_email'],
-              });
-
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('Orders Assigned Successfully!'),
-              ));
-            } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('Error assigning orders: $e'),
-              ));
-            }
+          onPressed: () {
+            assignorders();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomeScreen(),
+                ));
           },
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
+          child: const Padding(
+            padding: EdgeInsets.all(20.0),
             child: Text("ASSIGN ORDERS"),
           ),
         ),

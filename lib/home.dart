@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, await_only_futures
 
 import 'dart:io';
 
@@ -7,9 +7,10 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trippy_threads_admin/Employee/assign.dart';
-import 'package:trippy_threads_admin/add_products.dart';
+import 'package:trippy_threads_admin/orders/orders.dart';
+import 'package:trippy_threads_admin/products/add_products.dart';
 import 'package:trippy_threads_admin/Employee/requests.dart';
-import 'package:trippy_threads_admin/productslist.dart';
+import 'package:trippy_threads_admin/products/productslist.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,27 +33,27 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Spacer(),
+                  const Spacer(),
                   FloatingActionButton.extended(
-                    label: Text("Add Products"),
+                    label: const Text("Add Products"),
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AddProductsForm(),
+                            builder: (context) => const AddProductsForm(),
                           ));
                     },
                   ),
-                  Spacer(),
-                  Text("OR"),
-                  Spacer(),
+                  const Spacer(),
+                  const Text("OR"),
+                  const Spacer(),
                   FloatingActionButton.extended(
-                    label: Text("Add Product Category"),
+                    label: const Text("Add Product Category"),
                     onPressed: () {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: Text("Add New category"),
+                          title: const Text("Add New category"),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -82,13 +83,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         decoration: BoxDecoration(
                                             border: Border.all(
                                                 color: Colors.black, width: 2)),
-                                        child: Center(
+                                        child: const Center(
                                             child: Text("Add cover pic")),
                                       ),
                               ),
                               TextField(
                                 controller: category,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     focusedBorder: OutlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.black))),
@@ -110,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     }
                                   } catch (e) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                           content: Text("New Category added")),
                                     );
                                   }
@@ -118,13 +119,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   image = "";
                                   Navigator.pop(context);
                                 },
-                                child: Text("Add"))
+                                child: const Text("Add"))
                           ],
                         ),
                       );
                     },
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
             ),
@@ -133,12 +134,12 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: FloatingActionButton.extended(
-                label: Text("View Products"),
+                label: const Text("View Products"),
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AllProducts(),
+                        builder: (context) => const AllProducts(),
                       ));
                 },
               ),
@@ -148,12 +149,12 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: FloatingActionButton.extended(
-                label: Text("Employee Requests"),
+                label: const Text("Order's Status"),
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AllRequests(),
+                        builder: (context) => const Orders(),
                       ));
                 },
               ),
@@ -163,12 +164,27 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: FloatingActionButton.extended(
-                label: Text("Assign Duty"),
+                label: const Text("Employee Requests"),
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Assign(),
+                        builder: (context) => const AllRequests(),
+                      ));
+                },
+              ),
+            ),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FloatingActionButton.extended(
+                label: const Text("Assign Duty"),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Assign(),
                       ));
                 },
               ),

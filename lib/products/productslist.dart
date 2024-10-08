@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: use_build_context_synchronously
 
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AllProducts extends StatefulWidget {
   const AllProducts({super.key});
@@ -45,11 +44,11 @@ class _AllProductsState extends State<AllProducts> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
                   height: 100,
                   child: DropdownButtonFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Select a category',
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.black)),
@@ -70,7 +69,7 @@ class _AllProductsState extends State<AllProducts> {
               ),
               SingleChildScrollView(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 3,
+                  height: MediaQuery.of(context).size.height * 10,
                   child: StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('products')
@@ -79,7 +78,7 @@ class _AllProductsState extends State<AllProducts> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             final product = snapshot.data!.docs[index];
@@ -125,21 +124,22 @@ class _AllProductsState extends State<AllProducts> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(top: 20),
+                                            padding:
+                                                const EdgeInsets.only(top: 20),
                                             child: SizedBox(
                                               width: 200,
                                               child: Column(
                                                 children: [
                                                   Text(
                                                     product['product_name'],
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                         color: Colors.black,
                                                         fontSize: 20),
                                                   ),
                                                   Text(
-                                                    product['stock'] <= 1
+                                                    product['stock'] <= 10
                                                         ? "Out of Stock : ${product['stock']}"
                                                         : "Stock : ${product['stock']}",
                                                     style: TextStyle(
@@ -147,12 +147,12 @@ class _AllProductsState extends State<AllProducts> {
                                                             .ellipsis,
                                                         color:
                                                             product['stock'] <=
-                                                                    1
+                                                                    10
                                                                 ? Colors.red
                                                                 : Colors.black,
                                                         fontSize: 20),
                                                   ),
-                                                  product['stock'] <= 1
+                                                  product['stock'] <= 10
                                                       ? ElevatedButton(
                                                           onPressed: () {
                                                             showDialog(
@@ -165,7 +165,7 @@ class _AllProductsState extends State<AllProducts> {
                                                                     controller:
                                                                         updatedstock,
                                                                     decoration:
-                                                                        InputDecoration(
+                                                                        const InputDecoration(
                                                                       labelText:
                                                                           "updated stock number",
                                                                     ),
@@ -184,17 +184,21 @@ class _AllProductsState extends State<AllProducts> {
                                                                             'stock':
                                                                                 int.parse(updatedstock.text)
                                                                           });
+                                                                          updatedstock
+                                                                              .clear();
+                                                                          Navigator.pop(
+                                                                              context);
                                                                         },
-                                                                        child: Text(
+                                                                        child: const Text(
                                                                             "Update"))
                                                                   ],
                                                                 );
                                                               },
                                                             );
                                                           },
-                                                          child: Text(
+                                                          child: const Text(
                                                               "Update Stock"))
-                                                      : Text(" "),
+                                                      : const Text(" "),
                                                 ],
                                               ),
                                             ),
@@ -207,8 +211,8 @@ class _AllProductsState extends State<AllProducts> {
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
-                                                  title: Text("Alert !"),
-                                                  content: Text(
+                                                  title: const Text("Alert !"),
+                                                  content: const Text(
                                                       "Are you sure you want to delete ?"),
                                                   actions: [
                                                     TextButton(
@@ -216,7 +220,8 @@ class _AllProductsState extends State<AllProducts> {
                                                           Navigator.pop(
                                                               context);
                                                         },
-                                                        child: Text("No")),
+                                                        child:
+                                                            const Text("No")),
                                                     TextButton(
                                                         onPressed: () async {
                                                           await FirebaseFirestore
@@ -227,24 +232,26 @@ class _AllProductsState extends State<AllProducts> {
                                                               .delete();
                                                           ScaffoldMessenger.of(
                                                                   context)
-                                                              .showSnackBar(SnackBar(
-                                                                  content: Text(
-                                                                      "Product Deleted")));
+                                                              .showSnackBar(
+                                                                  const SnackBar(
+                                                                      content: Text(
+                                                                          "Product Deleted")));
                                                         },
-                                                        child: Text("Yes")),
+                                                        child:
+                                                            const Text("Yes")),
                                                   ],
                                                 );
                                               },
                                             );
                                           },
-                                          icon: Icon(Icons.delete))
+                                          icon: const Icon(Icons.delete))
                                     ],
                                   ),
                                 ));
                           },
                         );
                       } else if (snapshot.hasError) {}
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     },
                   ),
                 ),

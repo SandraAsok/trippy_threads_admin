@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,7 +37,7 @@ class _ProductViewState extends State<ProductView> {
                 aspectRatio: 16 / 9,
                 autoPlayCurve: Curves.fastOutSlowIn,
                 enableInfiniteScroll: true,
-                autoPlayAnimationDuration: Duration(seconds: 1),
+                autoPlayAnimationDuration: const Duration(seconds: 1),
                 viewportFraction: 0.8,
               ),
               items: image
@@ -59,7 +59,7 @@ class _ProductViewState extends State<ProductView> {
             ),
             minheight,
             Row(children: [
-              Spacer(),
+              const Spacer(),
               Text(
                 "Price : ",
                 style: GoogleFonts.aclonica(color: Colors.white),
@@ -68,7 +68,7 @@ class _ProductViewState extends State<ProductView> {
                 "₹ ${args['price']}/-",
                 style: GoogleFonts.aclonica(color: Colors.white),
               ),
-              Spacer(),
+              const Spacer(),
             ]),
             minheight,
             Text(
@@ -123,7 +123,7 @@ class _ProductViewState extends State<ProductView> {
                         return AlertDialog(
                           content: TextField(
                             controller: updatedstock,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: "updated stock number",
                             ),
                           ),
@@ -142,13 +142,13 @@ class _ProductViewState extends State<ProductView> {
                                   });
                                   Navigator.pop(context);
                                 },
-                                child: Text("Update"))
+                                child: const Text("Update"))
                           ],
                         );
                       },
                     );
                   },
-                  child: Text("Update Stock")),
+                  child: const Text("Update Stock")),
             )
           ],
         ),
